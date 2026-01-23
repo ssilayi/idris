@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDRIS — Institute for Data-Driven Research & Innovation</title>
+    <meta name="description" content="IDRIS accelerates scientific discovery through reproducible computing, research software engineering, and advanced data science infrastructure.">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.6;
+            color: #374151;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+        .stagger-5 { animation-delay: 0.5s; }
+        .stagger-6 { animation-delay: 0.6s; }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0e7490 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #0e7490;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .hero-pattern {
+            background-color: #f9fafb;
+            background-image: 
+                linear-gradient(to right, rgba(14, 116, 144, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(14, 116, 144, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .accent-border {
+            position: relative;
+            padding-top: 1.5rem;
+        }
+
+        .accent-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #0e7490, #06b6d4);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            transition: all 0.3s ease;
+            background: transparent;
+        }
+
+        nav.scrolled {
+            background: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-brand {
+            cursor: pointer;
+        }
+
+        .nav-brand h1 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .nav-brand p {
+            font-size: 0.75rem;
+            color: #4b5563;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+            text-decoration: none;
+            padding: 0.5rem 0;
+        }
+
+        .nav-link:hover {
+            color: #0e7490;
+        }
+
+        .btn-primary {
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(to right, #1e3a8a, #0e7490);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 0.375rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu-btn div {
+            width: 1.5rem;
+            height: 0.125rem;
+            background: #374151;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu .nav-link {
+            display: block;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+        }
+
+        .mobile-menu .nav-link:hover {
+            background: #f3f4f6;
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 1.5rem;
+        }
+
+        .section-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* Hero */
+        #home {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #ecfeff;
+            border: 1px solid #a5f3fc;
+            border-radius: 9999px;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge p {
+            font-size: 0.875rem;
+            color: #155e75;
+            font-weight: 500;
+        }
+
+        h2 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 3.75rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: #374151;
+            margin-bottom: 3rem;
+            max-width: 48rem;
+            line-height: 1.75;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 5rem;
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+            font-weight: 500;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary-large {
+            background: linear-gradient(to right, #1e3a8a, #0e7490);
+            color: white;
+        }
+
+        .btn-primary-large:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary-large {
+            background: transparent;
+            border: 2px solid #1e3a8a;
+            color: #1e3a8a;
+        }
+
+        .btn-secondary-large:hover {
+            background: #eff6ff;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin-top: 5rem;
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-family: 'Crimson Pro', serif;
+            font-size: 2.25rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+
+        /* Services */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .service-card {
+            background: #f9fafb;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .service-card h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #111827;
+        }
+
+        .service-card p {
+            color: #374151;
+            line-height: 1.75;
+        }
+
+        .engagement-box {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: linear-gradient(to right, #eff6ff, #ecfeff);
+            border-radius: 0.5rem;
+            border: 1px solid #a5f3fc;
+        }
+
+        .engagement-box h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .tag {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 1px solid #a5f3fc;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #155e75;
+        }
+
+        /* Approach */
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .principle-item {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .principle-number {
+            flex-shrink: 0;
+            width: 3rem;
+            height: 3rem;
+            background: linear-gradient(to bottom right, #1e3a8a, #0e7490);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .principle-item h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .principle-item p {
+            color: #374151;
+            line-height: 1.75;
+        }
+
+        .who-we-serve {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .who-we-serve h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .serve-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .serve-category h4 {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 0.75rem;
+            color: #111827;
+        }
+
+        .serve-category ul {
+            list-style: none;
+        }
+
+        .serve-category li {
+            display: flex;
+            align-items: start;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+
+        .serve-category li span {
+            color: #0e7490;
+            margin-right: 0.5rem;
+        }
+
+        /* Case Studies */
+        .case-study {
+            background: #f9fafb;
+            border-radius: 0.5rem;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .case-study-content {
+            padding: 2rem;
+        }
+
+        .case-study h3 {
+            font-family: 'Crimson Pro', serif;
+            font-size: 1.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .case-section h4 {
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .case-section p {
+            color: #374151;
+            line-height: 1.75;
+        }
+
+        /* Contact */
+        #contact {
+            background: linear-gradient(to bottom right, #1e3a8a, #0e7490);
+            color: white;
+            text-align: center;
+        }
+
+        #contact h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+        }
+
+        #contact .hero-description {
+            color: #bfdbfe;
+            margin: 0 auto 3rem;
+        }
+
+        .contact-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .contact-item-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-item h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .contact-item p {
+            color: #bfdbfe;
+            font-size: 0.875rem;
+        }
+
+        .contact-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 2rem;
+        }
+
+        .contact-divider h3 {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .contact-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .contact-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 9999px;
+            font-size: 0.875rem;
+        }
+
+        .contact-footer {
+            margin-top: 3rem;
+            color: #bfdbfe;
+        }
+
+        /* Footer */
+        footer {
+            background: #111827;
+            color: #9ca3af;
+            padding: 3rem 1.5rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        footer h3 {
+            font-family: 'Crimson Pro', serif;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        footer h4 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer li {
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .footer-divider {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+            font-size: 0.875rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            h2 {
+                font-size: 2.5rem;
+            }
+
+            .hero-description {
+                font-size: 1.125rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            section {
+                padding: 4rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand" onclick="scrollToSection('home')">
+                <h1><span class="gradient-text">IDRIS</span></h1>
+                <p>INSTITUTE FOR DATA-DRIVEN RESEARCH</p>
+            </div>
+
+            <div class="nav-menu" id="desktop-menu">
+                <a class="nav-link" onclick="scrollToSection('services')">Services</a>
+                <a class="nav-link" onclick="scrollToSection('approach')">Approach</a>
+                <a class="nav-link" onclick="scrollToSection('case-studies')">Case Studies</a>
+                <a class="nav-link" onclick="scrollToSection('contact')">Contact</a>
+                <button class="btn-primary" onclick="scrollToSection('contact')">Get Started</button>
+            </div>
+
+            <div class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+
+        <div class="mobile-menu" id="mobile-menu">
+            <a class="nav-link" onclick="scrollToSection('services')">Services</a>
+            <a class="nav-link" onclick="scrollToSection('approach')">Approach</a>
+            <a class="nav-link" onclick="scrollToSection('case-studies')">Case Studies</a>
+            <a class="nav-link" onclick="scrollToSection('contact')">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-pattern">
+        <div class="section-container">
+            <div style="max-width: 64rem;">
+                <div class="fade-in stagger-1">
+                    <div class="badge">
+                        <p>From Data to Discovery — At Scale</p>
+                    </div>
+                </div>
+
+                <h2 class="fade-in stagger-2">
+                    Accelerating Scientific Discovery Through 
+                    <span class="gradient-text">Reproducible Computing</span>
+                </h2>
+
+                <p class="hero-description fade-in stagger-3">
+                    IDRIS partners with research organizations to transform complex data into reliable 
+                    scientific insight through expert software engineering, scalable data pipelines, 
+                    and advanced research computing infrastructure.
+                </p>
+
+                <div class="hero-buttons fade-in stagger-4">
+                    <button class="btn-large btn-primary-large" onclick="scrollToSection('services')">
+                        Explore Services
+                    </button>
+                    <button class="btn-large btn-secondary-large" onclick="scrollToSection('contact')">
+                        Start a Conversation
+                    </button>
+                </div>
+
+                <div class="stats-grid fade-in stagger-5">
+                    <div class="stat-item">
+                        <p class="stat-number gradient-text">200+</p>
+                        <p class="stat-label">Research Institutions</p>
+                    </div>
+                    <div class="stat-item">
+                        <p class="stat-number gradient-text">NIH/NSF</p>
+                        <p class="stat-label">Aligned Standards</p>
+                    </div>
+                    <div class="stat-item">
+                        <p class="stat-number gradient-text">100%</p>
+                        <p class="stat-label">Reproducible Solutions</p>
+                    </div>
+                    <div class="stat-item">
+                        <p class="stat-number gradient-text">Open</p>
+                        <p class="stat-label">Science Committed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" style="background: white;">
+        <div class="section-container">
+            <div class="accent-border" style="max-width: 48rem; margin-bottom: 4rem;">
+                <h2>Services</h2>
+                <p style="font-size: 1.25rem; color: #374151; line-height: 1.75;">
+                    Specialized research computing solutions designed for academic excellence, 
+                    regulatory compliance, and long-term sustainability.
+                </p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card card-hover fade-in stagger-1">
+                    <div class="service-icon">⚙️</div>
+                    <h3>Research Software Engineering</h3>
+                    <p>Custom analysis pipelines, data processing workflows, and containerized applications designed for reproducibility and scale.</p>
+                </div>
+
+                <div class="service-card card-hover fade-in stagger-2">
+                    <div class="service-icon">🧬</div>
+                    <h3>Bioinformatics & Computational Biology</h3>
+                    <p>NGS pipeline development, multi-omics integration, and cloud-based genomics workflows aligned with best practices.</p>
+                </div>
+
+                <div class="service-card card-hover fade-in stagger-3">
+                    <div class="service-icon">🖥️</div>
+                    <h3>HPC & Research Computing</h3>
+                    <p>Infrastructure optimization, container deployment strategies, and environment management for advanced computing resources.</p>
+                </div>
+
+                <div class="service-card card-hover fade-in stagger-4">
+                    <div class="service-icon">📊</div>
+                    <h3>Data Science & Analytics</h3>
+                    <p>Statistical pipelines, visualization dashboards, and reproducible reporting systems for research data.</p>
+                </div>
+
+                <div class="service-card card-hover fade-in stagger-5">
+                    <div class="service-icon">📚</div>
+                    <h3>Training & Enablement</h3>
+                    <p>Workshop development, documentation, and best practices consultation to build internal capacity.</p>
+                </div>
+
+                <div class="service-card card-hover fade-in stagger-6">
+                    <div class="service-icon">🤝</div>
+                    <h3>Retainer Support</h3>
+                    <p>Ongoing technical advisory, quarterly reviews, and continuous infrastructure improvement.</p>
+                </div>
+            </div>
+
+            <div class="engagement-box">
+                <h3>Flexible Engagement Models</h3>
+                <p style="color: #374151; margin-bottom: 1rem;">
+                    We work within the realities of academic and federally funded research, 
+                    offering project-based engagements, subaward arrangements, and retainer support 
+                    tailored to institutional procurement requirements.
+                </p>
+                <div class="tags">
+                    <span class="tag">Grant-Funded Projects</span>
+                    <span class="tag">Subaward Support</span>
+                    <span class="tag">Retainer Agreements</span>
+                    <span class="tag">Sole-Source Justified</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Approach Section -->
+    <section id="approach" style="background: #f9fafb;">
+        <div class="section-container">
+            <div class="accent-border" style="max-width: 48rem; margin-bottom: 4rem;">
+                <h2>Why IDRIS</h2>
+                <p style="font-size: 1.25rem; color: #374151; line-height: 1.75;">
+                    We bring technical excellence and academic fluency to research computing challenges.
+                </p>
+            </div>
+
+            <div class="principles-grid">
+                <div class="principle-item fade-in stagger-1">
+                    <div class="principle-number">1</div>
+                    <div>
+                        <h3>Reproducibility First</h3>
+                        <p>Every solution designed for long-term use, transparency, and verifiability</p>
+                    </div>
+                </div>
+
+                <div class="principle-item fade-in stagger-2">
+                    <div class="principle-number">2</div>
+                    <div>
+                        <h3>Open Science Aligned</h3>
+                        <p>Vendor-neutral approaches supporting NIH/NSF mandates and best practices</p>
+                    </div>
+                </div>
+
+                <div class="principle-item fade-in stagger-3">
+                    <div class="principle-number">3</div>
+                    <div>
+                        <h3>Academic Fluency</h3>
+                        <p>Deep understanding of grant cycles, institutional procurement, and research culture</p>
+                    </div>
+                </div>
+
+                <div class="principle-item fade-in stagger-4">
+                    <div class="principle-number">4</div>
+                    <div>
+                        <h3>Technical Excellence</h3>
+                        <p>High-quality, maintainable deliverables with comprehensive documentation</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="who-we-serve">
+                <h3>Who We Serve</h3>
+                <div class="serve-grid">
+                    <div class="serve-category">
+                        <h4>Research Institutions</h4>
+                        <ul>
+                            <li><span>•</span> University research labs and centers</li>
+                            <li><span>•</span> Core facilities (genomics, imaging, data science)</li>
+                            <li><span>•</span> Medical schools and research hospitals</li>
+                            <li><span>•</span> Government and nonprofit research organizations</li>
+                        </ul>
+                    </div>
+                    <div class="serve-category">
+                        <h4>Research Needs</h4>
+                        <ul>
+                            <li><span>•</span> Data-intensive research (genomics, imaging, health data)</li>
+                            <li><span>•</span> NIH/NSF compliance and data sharing mandates</li>
+                            <li><span>•</span> Limited in-house computing expertise</li>
+                            <li><span>•</span> Reproducibility and sustainability requirements</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Case Studies Section -->
+    <section id="case-studies" style="background: white;">
+        <div class="section-container">
+            <div class="accent-border" style="max-width: 48rem; margin-bottom: 4rem;">
+                <h2>Case Studies</h2>
+                <p style="font-size: 1.25rem; color: #374151; line-height: 1.75;">
+                    Real-world research computing challenges solved with reproducible, sustainable solutions.
+                </p>
+            </div>
+
+            <div>
+                <div class="case-study card-hover fade-in stagger-1">
+                    <div class="case-study-content">
+                        <h3>HPC Bioinformatics Pipeline</h3>
+                        <div class="case-grid">
+                            <div class="case-section">
+                                <h4>Context</h4>
+                                <p>University research group requiring reproducible workflows on shared HPC cluster</p>
+                            </div>
+                            <div class="case-section">
+                                <h4>Impact</h4>
+                                <p>One-command reproducible analysis, reduced failures, enabled cross-project collaboration</p>
+                            </div>
+                        </div>
+                        <div class="tags">
+                            <span class="tag">HPC</span>
+                            <span class="tag">Containerization</span>
+                            <span class="tag">Workflow Management</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study card-hover fade-in stagger-2">
+                    <div class="case-study-content">
+                        <h3>Health Research Infrastructure</h3>
+                        <div class="case-grid">
+                            <div class="case-section">
+                                <h4>Context</h4>
+                                <p>Secure, scalable environment for sensitive biomedical data processing</p>
+                            </div>
+                            <div class="case-section">
+                                <h4>Impact</h4>
+                                <p>Faster turnaround, improved auditability, reduced technical overhead</p>
+                            </div>
+                        </div>
+                        <div class="tags">
+                            <span class="tag">Compliance</span>
+                            <span class="tag">Data Processing</span>
+                            <span class="tag">Security</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="case-study card-hover fade-in stagger-3">
+                    <div class="case-study-content">
+                        <h3>Research Computing Enablement</h3>
+                        <div class="case-grid">
+                            <div class="case-section">
+                                <h4>Context</h4>
+                                <p>Academic program supporting multiple student research projects</p>
+                            </div>
+                            <div class="case-section">
+                                <h4>Impact</h4>
+                                <p>Consistent outputs, reduced setup time, improved productivity</p>
+                            </div>
+                        </div>
+                        <div class="tags">
+                            <span class="tag">Training</span>
+                            <span class="tag">Standardization</span>
+                            <span class="tag">Documentation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="section-container" style="max-width: 64rem;">
+            <h2>Let's Accelerate Your Research</h2>
+            <p class="hero-description">
+                Whether you're planning a new project, need infrastructure consultation, or 
+                want to discuss institutional partnerships, we're here to help.
+            </p>
+
+            <div class="contact-box">
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-item-icon">📧</div>
+                        <h3>Email</h3>
+                        <p>contact@idris.research</p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-icon">💼</div>
+                        <h3>LinkedIn</h3>
+                        <p>Connect with us</p>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-item-icon">📄</div>
+                        <h3>Capability Statement</h3>
+                        <p>Download our materials</p>
+                    </div>
+                </div>
+
+                <div class="contact-divider">
+                    <h3>Available For</h3>
+                    <div class="contact-tags">
+                        <span class="contact-tag">Project Consultation</span>
+                        <span class="contact-tag">Institutional Partnerships</span>
+                        <span class="contact-tag">Grant Collaboration</span>
+                        <span class="contact-tag">Training & Workshops</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="contact-footer">
+                Serving research organizations nationwide through remote and on-site collaboration.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="section-container">
+            <div class="footer-grid">
+                <div>
+                    <h3>IDRIS</h3>
+                    <p style="font-size: 0.875rem;">Institute for Data-Driven Research & Innovation</p>
+                    <p style="font-size: 0.875rem; margin-top: 1rem;">
+                        Accelerating scientific discovery through reproducible computing.
+                    </p>
+                </div>
+                <div>
+                    <h4>Services</h4>
+                    <ul>
+                        <li>Research Software Engineering</li>
+                        <li>Bioinformatics & Comp Bio</li>
+                        <li>HPC & Research Computing</li>
+                        <li>Data Science & Analytics</li>
+                        <li>Training & Enablement</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Resources</h4>
+                    <ul>
+                        <li>Capability Statement</li>
+                        <li>Case Studies</li>
+                        <li>NIH/NSF Compliance Guide</li>
+                        <li>Blog & Insights</li>
+                        <li>Contact Us</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-divider">
+                <p>© 2026 IDRIS — Institute for Data-Driven Research & Innovation. All rights reserved.</p>
+                <p style="margin-top: 0.5rem;">
+                    Committed to open science, reproducibility, and research excellence.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if (element) {
+                const offset = 80;
+                const bodyRect = document.body.getBoundingClientRect().top;
+                const elementRect = element.getBoundingClientRect().top;
+                const elementPosition = elementRect - bodyRect;
+                const offsetPosition = elementPosition - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+            
+            // Close mobile menu
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.remove('active');
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('active');
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Active section highlighting
+        window.addEventListener('scroll', function() {
+            const sections = ['home', 'services', 'approach', 'case-studies', 'contact'];
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const element = document.getElementById(section);
+                if (element) {
+                    const rect = element.getBoundingClientRect();
+                    if (rect.top <= 150 && rect.bottom >= 150) {
+                        current = section;
+                    }
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('onclick').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
