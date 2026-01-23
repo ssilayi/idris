@@ -24,18 +24,18 @@
 ## 🔗 Quick Access Links
 
 ### Essential Documents
-- 📖 [Executive Summary](Executive_Summary/IDRIS_Executive_Summary.md) - Start here (30 min read)
-- 📊 [Business Plan](Business_Plan/idris_business_plan.md) - Full strategy (2 hour read)
-- 👥 [Team Analysis](Team_Analysis/idris_founding_team_analysis.md) - Co-founder assessment (1.5 hour read)
-- 💰 [Startup Costs](Financial/IDRIS_Startup_Costs_Breakdown.md) - Budget breakdown (1 hour read)
+- 📖 [Executive Summary](IDRIS_Executive_Summary.md) - Start here (30 min read)
+- 📊 [Business Plan](idris_business_plan.md) - Full strategy (2 hour read)
+- 👥 [Team Analysis](idris_founding_team_analysis.md) - Co-founder assessment (1.5 hour read)
+- 💰 [Startup Costs](IDRIS_Startup_Costs_Breakdown.md) - Budget breakdown (1 hour read)
 
 ### Deployment & Website
-- 🌐 [Website (index.html)](Website/index.html) - Download and deploy
-- 🚀 [Quick Deploy Guide](Website/README_DEPLOYMENT.md) - 5-minute setup
-- 📘 [Full Deployment Guide](Website/IDRIS_Website_Deployment_Guide.md) - All platform options
+- 🌐 [Website (index.html)](index.html) - Download and deploy
+- 🚀 [Quick Deploy Guide](README_DEPLOYMENT.md) - 5-minute setup
+- 📘 [Full Deployment Guide](IDRIS_Website_Deployment_Guide.md) - All platform options
 
 ### Presentation & Setup
-- 📊 [PowerPoint Presentation](Presentation/IDRIS_Business_Plan_Presentation.pptx) - 10 slides with charts
+- 📊 [PowerPoint Presentation](IDRIS_Business_Plan_Presentation.pptx) - 10 slides with charts
 - 🔧 [Repository Structure](REPOSITORY_STRUCTURE.md) - File organization guide
 - 📋 [GitHub Setup](GITHUB_SETUP_INSTRUCTIONS.md) - Create your repo
 
